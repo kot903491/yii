@@ -32,9 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'price',
             [
                 'attribute'=>'created_at',
-                'format'=>'html',
-                'value'=>function ($data){return '<small>'.date('d.m.Y h:i:s A',$data->created_at).'</small>';},
-
+                'format'=>'datetime',
+                'contentOptions'=>['class'=>'small'],
             ],
 
             ['class' => 'yii\grid\ActionColumn'],
