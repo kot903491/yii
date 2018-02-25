@@ -50,8 +50,13 @@ $config = [
             'rules' => [
             ],
         ],
+        'service'=>[
+            'class'=>app\components\TestService::class,
+            'var'=>rand(0,1000000),
+            ]
     ],
     'params' => $params,
+
 ];
 
 if (YII_ENV_DEV) {

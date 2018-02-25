@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\TestService;
 use app\models\MyModel;
 use Yii;
 use yii\base\BaseObject;
@@ -20,6 +21,13 @@ class TestController extends Controller
         $model->getIndex();
         return $this->render('test',[
             'model'=>$model
+        ]);
+    }
+
+    public function actionSecond()
+    {
+        return $this->render('test',[
+            'model'=>Yii::$app->service,
         ]);
     }
 
