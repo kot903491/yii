@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -89,9 +89,8 @@ class ProductController extends Controller
         $model->scenario=Product::SCENARIO_UPDATE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if ($model->validate()) {
                 return $this->redirect(['view', 'id' => $model->id]);
-            }
+
         }
 
         return $this->render('update', [
