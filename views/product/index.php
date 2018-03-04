@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="product-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php Pjax::begin(['enablePushState'=>true]); ?>
+    <?php Pjax::begin(); ?>
 
     <p>
         <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>

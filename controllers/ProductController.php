@@ -27,6 +27,7 @@ class ProductController extends Controller
                 ],
             ],
         ];
+
     }
 
     /**
@@ -37,7 +38,6 @@ class ProductController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find(),
-            'pagination' => ['pageSize' => 5]
         ]);
 
         return $this->render('index', [
@@ -93,7 +93,6 @@ class ProductController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
 
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
