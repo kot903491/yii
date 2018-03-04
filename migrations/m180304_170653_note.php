@@ -15,11 +15,12 @@ class m180304_170653_note extends Migration
         $this->createTable('note',[
             'id'=>$this->primaryKey(),
             'text'=>$this->text()->notNull(),
-            'created_at'=>$this->integer()->notNull(),
-            'updated_at'=>$this->integer()
+            'creator_id'=>$this->integer()->notNull(),
+            'created_at'=>$this->integer()
         ]);
         echo "Миграция m180304_170653_note прошла успешно.\n";
     }
+
     /**
      * {@inheritdoc}
      */

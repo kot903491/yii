@@ -16,10 +16,10 @@ class m180304_165309_user extends Migration
             'id'=>$this->primaryKey(),
             'username'=>$this->string()->notNull(),
             'name'=>$this->string()->notNull(),
-            'surname'=>$this->string()->notNull(),
+            'surname'=>$this->string(),
             'password_hash'=>$this->string()->notNull(),
-            'access_token'=>$this->string()->null()->defaultValue('NULL'),
-            'auth_key'=>$this->string()->defaultValue('NULL')->null(),
+            'access_token'=>$this->string()->defaultValue('NULL'),
+            'auth_key'=>$this->string()->defaultValue('NULL'),
             'created_at'=>$this->integer(),
             'updated_at'=>$this->integer()
         ]);
