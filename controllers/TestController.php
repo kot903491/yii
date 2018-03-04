@@ -30,6 +30,4 @@ class TestController extends Controller
             'model'=>Yii::$app->service,
         ]);
     }
-
-
 }
