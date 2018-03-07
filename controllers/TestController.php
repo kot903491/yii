@@ -43,7 +43,7 @@ class TestController extends Controller
         $result['id>1']=\yii\helpers\VarDumper::dumpAsString(
             (new Query())->from('user')->where('id>1')->all(),10,true);
         $result['count']=\yii\helpers\VarDumper::dumpAsString(
-            (new Query())->from('user')->select('COUNT(*)')->scalar(),10,true);
+            (new Query())->from('user')->count(),10,true);
         $result['note']=\yii\helpers\VarDumper::dumpAsString((new Query())->select(
             [
                 'note'=>'text',
