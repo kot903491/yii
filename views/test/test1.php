@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: timurka
+ * user: timurka
  * Date: 05.03.18
  * Time: 0:20
  */?>
