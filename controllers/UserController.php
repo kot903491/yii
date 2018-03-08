@@ -47,6 +47,7 @@ class UserController extends \yii\web\Controller
         $note->created_at=time();
         $note->save();
         $note->link(Note::RELATION_CREATOR,$user);
+        $user->link(User::RELATION_ACCESEDNOTES,$note);
 
     }
 
