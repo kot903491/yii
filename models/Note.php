@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "note".
@@ -86,5 +87,14 @@ class Note extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \app\models\query\NoteQuery(get_called_class());
+    }
+    public function behaviors()
+    {
+        return [
+            [
+                'class'=>TimestampBehavior::class,
+                'updatedAtAttribute' => false
+            ]
+        ];
     }
 }

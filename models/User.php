@@ -24,7 +24,7 @@ class User extends \yii\db\ActiveRecord
 {
     const RELATION_ACCESSES='accesses';
     const RELATION_NOTES='notes';
-    const RELATION_ACCESEDNOTES='acessedNotes';
+    const RELATION_ACCESEDNOTES='accessedNotes';
     /**
      * @inheritdoc
      */
@@ -74,7 +74,7 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAcessedNotes()
+    public function getAccessedNotes()
     {
         return $this->hasMany(Note::class, ['id' => 'note_id'])
             ->viaTable('access',['user_id'=>'id']);

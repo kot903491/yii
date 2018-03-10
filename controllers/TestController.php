@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\components\TestService;
 use app\models\MyModel;
+use app\models\Note;
 use Yii;
 use yii\base\BaseObject;
 use yii\db\Query;
@@ -15,6 +16,10 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+/**
+ * Class TestController
+ * @package app\controllers
+ */
 class TestController extends Controller
 {
     public function actionIndex()
@@ -55,6 +60,7 @@ class TestController extends Controller
             'model'=>$result,
         ]);
     }
+
 
     private function insertUser()
     {

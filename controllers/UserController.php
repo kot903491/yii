@@ -17,8 +17,23 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+/**
+ * Class UserController
+ * @package app\controllers
+ */
 class UserController extends \yii\web\Controller
 {
+    public function actionIndex()
+    {
+        $user=User::findOne(1);
+        $note=new Note();
+        $note->text='проверяем behaviors';
+        $note->link(Note::RELATION_CREATOR,$user);
+        $user->link(User::RELATION_ACCESEDNOTES,$note);
+        return $this->render('test');
+    }
+
+
     public function actionTest()
     {
         /*for ($i=1;$i<=3;$i++){
