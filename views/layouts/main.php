@@ -38,22 +38,23 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'ДЗ6', 'url' => ['/user/index']],
+            ['label' => 'Главная', 'url' => ['/site/index']],
+            ['label' => 'О нас', 'url' => ['/site/about']],
+            ['label' => 'Контакты', 'url' => ['/site/contact']],
+            ['label' => 'Регистрация', 'url' => ['/user/create']],
             ['label' => 'ДЗ1', 'url' => ['/test/index'],'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'ДЗ2', 'url' => ['/test/second'],'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'Product ДЗ3', 'url' => ['/product/index'],'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'ДЗ4', 'url' => ['/test/fourth'],'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'ДЗ5', 'url' => ['/user/test'],'visible'=>!Yii::$app->user->isGuest],
+            ['label' => 'Профиль', 'url' => ['/user/view','id'=>app()->user->id],'visible'=>!Yii::$app->user->isGuest],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => 'Войти', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Выйти (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

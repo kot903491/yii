@@ -29,11 +29,12 @@ use yii\db\ActiveRecord;
 
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-    //public $id;
-    //public $username;
+
     public $password;
-    //public $authKey;
-    //public $accessToken;
+
+
+    const SCENARIO_CREATE='create';
+    const SCENARIO_UPDATE='update';
 
     const RELATION_ACCESSES='accesses';
     const RELATION_NOTES='notes';
@@ -52,9 +53,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'name', 'password'], 'required'],
+            [['username', 'name', 'password'], 'required', 'on'=>self::SCENARIO_CREATE],
             [['created_at', 'updated_at'], 'integer'],
-            [['username', 'name', 'surname', 'password', 'access_token', 'auth_key'], 'string', 'max' => 255],
+            [['username', 'name', 'surname', 'password', 'access_token',
+                'auth_key'], 'string', 'max' => 255,'on'=>self::SCENARIO_CREATE],
+            [['name'],'required','on'=>self::SCENARIO_UPDATE],
+            [['name','surname','password'],'string','max'=>255,'on'=>self::SCENARIO_UPDATE]
         ];
     }
 
@@ -197,6 +201,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         }
         return true;
     }
+
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         return [
@@ -208,5 +216,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
                 ]
             ]
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios=parent::scenarios();
+        $scenarios[self::SCENARIO_CREATE]=['username','name','password','surname','created_at'];
+        $scenarios[self::SCENARIO_UPDATE]=['surname','name','password'];
+        return $scenarios;
     }
 }
