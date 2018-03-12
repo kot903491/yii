@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+
 
 /**
  * This is the model class for table "user".
@@ -19,9 +22,19 @@ use Yii;
  *
  * @property Access[] $accesses
  * @property Note[] $notes
+ *
+ * @mixin TimestampBehavior
  */
-class User extends \yii\db\ActiveRecord
+
+
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    //public $id;
+    //public $username;
+    public $password;
+    //public $authKey;
+    //public $accessToken;
+
     const RELATION_ACCESSES='accesses';
     const RELATION_NOTES='notes';
     const RELATION_ACCESEDNOTES='accessedNotes';
@@ -39,9 +52,9 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'name', 'password_hash'], 'required'],
+            [['username', 'name', 'password'], 'required'],
             [['created_at', 'updated_at'], 'integer'],
-            [['username', 'name', 'surname', 'password_hash', 'access_token', 'auth_key'], 'string', 'max' => 255],
+            [['username', 'name', 'surname', 'password', 'access_token', 'auth_key'], 'string', 'max' => 255],
         ];
     }
 
@@ -95,5 +108,105 @@ class User extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \app\models\query\UserQuery(get_called_class());
+    }
+
+    /**
+     * Finds an identity by the given ID.
+     *
+     * @param string|int $id the ID to be looked for
+     * @return IdentityInterface|null the identity object that matches the given ID.
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    /**
+     * Finds an identity by the given token.
+     *
+     * @param string $token the token to be looked for
+     * @return IdentityInterface|null the identity object that matches the given token.
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }
+
+    /**
+     * @return int|string current user ID
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string current user auth key
+     */
+    public function getAuthKey()
+    {
+        return $this->auth_key;
+    }
+
+    /**
+     * @param string $authKey
+     * @return bool if auth key is valid for current user
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
+    }
+
+    /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        return static::findOne(['username'=>$username]);
+    }
+
+    /**
+     * Validates password
+     *
+     * @param string $password password to validate
+     * @return bool if password provided is valid for current user
+     */
+    public function validatePassword($password)
+    {
+        return app()->getSecurity()->validatePassword($password, $this->password_hash);
+    }
+
+    /**
+     * @param bool $insert
+     * @return bool|void
+     */
+    public function beforeSave($insert)
+    {
+        if(!parent::beforeSave($insert)){
+            return false;
+        }
+        if ($this->password){
+            $this->password_hash=app()->getSecurity()
+                ->generatePasswordHash($this->password);
+        }
+        if ($this->isNewRecord){
+            $this->auth_key=app()->getSecurity()->generateRandomString();
+        }
+        return true;
+    }
+    public function behaviors()
+    {
+        return [
+            [
+            'class'=>TimestampBehavior::className(),
+            'attributes'=>[
+                ActiveRecord::EVENT_BEFORE_INSERT=>['created_at'],
+                ActiveRecord::EVENT_BEFORE_UPDATE=>['updated_at']
+                ]
+            ]
+        ];
     }
 }

@@ -41,11 +41,12 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'ДЗ1', 'url' => ['/test/index']],
-            ['label' => 'ДЗ2', 'url' => ['/test/second']],
-            ['label' => 'Product ДЗ3', 'url' => ['/product/index']],
-            ['label' => 'ДЗ4', 'url' => ['/test/fourth']],
-            ['label' => 'ДЗ5', 'url' => ['/user/test']],
+            ['label' => 'ДЗ6', 'url' => ['/user/index']],
+            ['label' => 'ДЗ1', 'url' => ['/test/index'],'visible'=>!Yii::$app->user->isGuest],
+            ['label' => 'ДЗ2', 'url' => ['/test/second'],'visible'=>!Yii::$app->user->isGuest],
+            ['label' => 'Product ДЗ3', 'url' => ['/product/index'],'visible'=>!Yii::$app->user->isGuest],
+            ['label' => 'ДЗ4', 'url' => ['/test/fourth'],'visible'=>!Yii::$app->user->isGuest],
+            ['label' => 'ДЗ5', 'url' => ['/user/test'],'visible'=>!Yii::$app->user->isGuest],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -57,7 +58,8 @@ AppAsset::register($this);
                 )
                 . Html::endForm()
                 . '</li>'
-            )
+            ),
+            ['label' => 'Gii', 'url' => ['/gii']]
         ],
     ]);
     NavBar::end();
