@@ -41,7 +41,7 @@ AppAsset::register($this);
             ['label' => 'Главная', 'url' => ['/site/index']],
             ['label' => 'О нас', 'url' => ['/site/about']],
             ['label' => 'Контакты', 'url' => ['/site/contact']],
-            ['label' => 'Регистрация', 'url' => ['/user/create']],
+            ['label' => 'Регистрация', 'url' => ['/user/create'],'visible'=>Yii::$app->user->isGuest],
             ['label' => 'ДЗ1', 'url' => ['/test/index'],'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'ДЗ2', 'url' => ['/test/second'],'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'Product ДЗ3', 'url' => ['/product/index'],'visible'=>!Yii::$app->user->isGuest],

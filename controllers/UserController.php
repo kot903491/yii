@@ -70,7 +70,8 @@ class UserController extends Controller
         $model->scenario=User::SCENARIO_CREATE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            app()->session->addFlash('info','Пользователь ' . $model->username . ' создан. Войдите на сайт');
+            return $this->redirect(['site/login']);
         }
 
         return $this->render('create', [

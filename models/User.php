@@ -3,8 +3,8 @@
 namespace app\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
+use \yii\behaviors\TimestampBehavior;
+use \yii\db\ActiveRecord;
 
 
 /**
@@ -27,7 +27,7 @@ use yii\db\ActiveRecord;
  */
 
 
-class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class User extends yii\db\ActiveRecord implements yii\web\IdentityInterface
 {
 
     public $password;
