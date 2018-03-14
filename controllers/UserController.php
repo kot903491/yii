@@ -54,8 +54,10 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
+        $perm=app()->user->getId()==$id ? true : false;
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'perm' =>$perm,
         ]);
     }
 
@@ -66,16 +68,19 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
-        $model->scenario=User::SCENARIO_CREATE;
+        $user = new User();
+        $user->scenario=User::SCENARIO_CREATE;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            app()->session->addFlash('info','Пользователь ' . $model->username . ' создан. Войдите на сайт');
+        if ($user->load(Yii::$app->request->post()) && $user->save()) {
+            $auth = Yii::$app->authManager;
+            $authorRole = $auth->getRole('user');
+            $auth->assign($authorRole, $user->getId());
+            app()->session->addFlash('info','Пользователь ' . $user->username . ' создан. Войдите на сайт');
             return $this->redirect(['site/login']);
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model' => $user,
         ]);
     }
 
