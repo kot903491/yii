@@ -54,7 +54,7 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
-        $perm=app()->user->getId()==$id ? true : false;
+        $perm=app()->user->can('updateAllProfiles',['id'=>$id]) ? true : false;
         return $this->render('view', [
             'model' => $this->findModel($id),
             'perm' =>$perm,

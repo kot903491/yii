@@ -26,6 +26,12 @@ class UserRule extends Rule
      */
     public function execute($user, $item, $params)
     {
-        return isset($params['post']) ? $params['post']->createdBy == $user : false;
+        if (isset($params['id'])){
+            return $params['id']==$user;
+        }
+        if (isset($params['post'])){
+            return $params['post']->createdBy==$user;
+        }
+        return false;
     }
 }

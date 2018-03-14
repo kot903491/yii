@@ -50,15 +50,13 @@ class RbacController extends Controller
         // Роли «Редактор записей» присваиваем разрешение «Редактирование записи»
 
         $auth->addChild($user,$createNote);
-        $auth->addChild($admin,$user);
         $auth->addChild($admin,$updateNote);
-
 
         $rule = new \app\rbac\AuthorRule;
         $auth->add($rule);
 
         // добавляем разрешение "updateOwnNote" и привязываем к нему правило.
-        $updateOwnNote = $auth->createPermission('updateOwnPost');
+        $updateOwnNote = $auth->createPermission('updateOwnNote');
         $updateOwnNote->description = 'Редактирование своей записи';
         $updateOwnNote->ruleName = $rule->name;
         $auth->add($updateOwnNote);
@@ -75,6 +73,8 @@ class RbacController extends Controller
         $auth->add($updateAllProfiles);
         $auth->addChild($admin,$updateAllProfiles);
 
+
+
         $rule=new \app\rbac\UserRule;
         $auth->add($rule);
         $updateOwnProfile=$auth->createPermission('updateOwnProfile');
@@ -85,6 +85,21 @@ class RbacController extends Controller
         $auth->addChild($updateOwnProfile,$updateAllProfiles);
         $auth->addChild($user,$updateOwnProfile);
 
+        /*$viewEditProfile=$auth->createPermission('viewEditProfile');
+        $viewEditProfile->description='Отображение кнопок редактирования профилей';
+
+        $viewEditOwnProfile=$auth->createPermission('viewEditOwnProfile');
+        $viewEditOwnProfile->description='Отображение кнопок редактирования профиля';
+
+        $auth->add($viewEditProfile);
+        $auth->add($viewEditOwnProfile);
+
+        $auth->addChild($viewEditProfile,$viewEditOwnProfile);
+        $auth->addChild($admin,$viewEditProfile);
+        $auth->addChild($user,$viewEditOwnProfile);*/
+
+
+        $auth->addChild($admin,$user);
 
 
 
