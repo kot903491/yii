@@ -24,16 +24,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'username',
+            [
+            'label' => 'username',
+                'attribute'=>'username',
+                'format' => 'html',
+                'value' => function($data){return Html::a($data->name,['view','id'=>$data->id]);}
+            ],
             'name',
             'surname',
-            'password_hash',
+            //'password_hash',
             //'access_token',
             //'auth_key',
             //'created_at',
             //'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
     <?php Pjax::end(); ?>
