@@ -14,7 +14,7 @@ class NoteQuery extends \yii\db\ActiveQuery
         return $this->andWhere('[[status]]=1');
     }*/
 
-    public function byUser($userId)
+    public function byCreator($userId)
     {
         return $this->andWhere(['creator_id'=>$userId]);
     }

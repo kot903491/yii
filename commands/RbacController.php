@@ -85,18 +85,21 @@ class RbacController extends Controller
         $auth->addChild($updateOwnProfile,$updateAllProfiles);
         $auth->addChild($user,$updateOwnProfile);
 
-        /*$viewEditProfile=$auth->createPermission('viewEditProfile');
-        $viewEditProfile->description='Отображение кнопок редактирования профилей';
 
-        $viewEditOwnProfile=$auth->createPermission('viewEditOwnProfile');
-        $viewEditOwnProfile->description='Отображение кнопок редактирования профиля';
+        $setAllAccessNote=$auth->createPermission('setAllAccessNote');
+        $setAllAccessNote->description='Расшаривание всех заметок';
+        $auth->add($setAllAccessNote);
+        $auth->addChild($admin,$setAllAccessNote);
 
-        $auth->add($viewEditProfile);
-        $auth->add($viewEditOwnProfile);
+        $rule=new \app\rbac\AccessRule();
+        $auth->add($rule);
+        $setOwnAccessNote=$auth->createPermission('setOwnAccessNote');
+        $setOwnAccessNote->description='Расшаривание своей заметки';
+        $setOwnAccessNote->ruleName=$rule->name;
+        $auth->add($setOwnAccessNote);
 
-        $auth->addChild($viewEditProfile,$viewEditOwnProfile);
-        $auth->addChild($admin,$viewEditProfile);
-        $auth->addChild($user,$viewEditOwnProfile);*/
+        $auth->addChild($setOwnAccessNote,$setAllAccessNote);
+        $auth->addChild($user,$setOwnAccessNote);
 
 
         $auth->addChild($admin,$user);

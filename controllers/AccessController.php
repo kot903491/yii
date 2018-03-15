@@ -2,10 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\Note;
+use app\models\User;
 use Yii;
 use app\models\Access;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -62,17 +65,26 @@ class AccessController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
-        $model = new Access();
+        $note = Note::findOne($id);
+        if (app()->user->can('setAllAccessNote',['id'=>$note->creator_id])) {
+            $note = Note::findOne($id);
+            $model = new Access();
+            $model->note_id = $id;
+            $users = User::find()->select('username')->indexBy('id')->column();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['note/my']);
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+                'note' => $note->text,
+                'users' => $users,
+            ]);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        throw new ForbiddenHttpException('Нет доступа');
     }
 
     /**

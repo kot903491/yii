@@ -6,6 +6,7 @@ use Yii;
 use app\models\Note;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -47,7 +48,7 @@ class NoteController extends Controller
     public function actionMy()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Note::find()->byUser(app()->user->id),
+            'query' => Note::find()->byCreator(app()->user->id),
         ]);
 
         return $this->render('my', [
@@ -99,14 +100,20 @@ class NoteController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $note = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (app()->user->can('updateNote',['post'=>$note])) {
+            if ($note->load(Yii::$app->request->post()) && $note->save()) {
+                return $this->redirect(['view', 'id' => $note->id]);
+            }
+        }
+        else{
+            throw new ForbiddenHttpException('У вас нее прав редактировать данную запись');
         }
 
+
         return $this->render('update', [
-            'model' => $model,
+            'model' => $note,
         ]);
     }
 
@@ -119,7 +126,13 @@ class NoteController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $note=$this->findModel($id);
+        if(app()->user->can('updateNote',['post'=>$note])) {
+            $note->delete();
+        }
+        else{
+            throw new ForbiddenHttpException('У вас нее прав удалять данную запись');
+        }
 
         return $this->redirect(['index']);
     }

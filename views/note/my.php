@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn',
                 'template' => '{share} {view} {update} {delete}',
                 'buttons' => [
-                        'share'=> function ($model, $key, $index) {
+                        'share'=> function ($url, $model, $key) {
         return Html::a(yii\bootstrap\Html::icon('share'),['access/create','id'=>$model->id]);
                         }
                 ]

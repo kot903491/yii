@@ -14,8 +14,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <h4>Расшарить заметку</h4>
+
+    <p>"
+        <?= $note; ?>"
+    </p>
+
+    <h4>пользователю:</h4>
+
     <?= $this->render('_form', [
         'model' => $model,
+        'users'=>$users,
     ]) ?>
 
 </div>
