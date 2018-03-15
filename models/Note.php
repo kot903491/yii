@@ -3,7 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+use \yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "note".
@@ -88,13 +90,24 @@ class Note extends \yii\db\ActiveRecord
     {
         return new \app\models\query\NoteQuery(get_called_class());
     }
+
     public function behaviors()
     {
         return [
             [
                 'class'=>TimestampBehavior::class,
-                'updatedAtAttribute' => false
+                'attributes'=>[
+                    ActiveRecord::EVENT_BEFORE_INSERT=>['created_at']
+                ]
             ]
         ];
+    }
+
+    public function beforeValidate()
+    {
+        if ($this->isNewRecord){
+            $this->creator_id=app()->user->id;
+        }
+        return true;
     }
 }

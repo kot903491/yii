@@ -21,7 +21,7 @@ class NoteController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -33,13 +33,24 @@ class NoteController extends Controller
      * Lists all Note models.
      * @return mixed
      */
-    public function actionIndex()
+    /*public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Note::find(),
         ]);
 
         return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }*/
+
+    public function actionMy()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Note::find()->byUser(app()->user->id),
+        ]);
+
+        return $this->render('my', [
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -64,15 +75,19 @@ class NoteController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Note();
+        if (app()->user->can('createNote')) {
+            $note = new Note();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($note->load(Yii::$app->request->post()) && $note->save()) {
+                app()->session->setFlash('success','Создана заметка '.$note->id);
+                return $this->redirect(['my']);
+            }
+
+            return $this->render('create', [
+                'model' => $note,
+            ]);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->redirect(['site/index']);
     }
 
     /**

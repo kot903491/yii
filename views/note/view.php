@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Note */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Notes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Notes', 'url' => ['my']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="note-view">

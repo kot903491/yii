@@ -41,12 +41,19 @@ AppAsset::register($this);
             ['label' => 'Главная', 'url' => ['/site/index']],
             ['label' => 'О нас', 'url' => ['/site/about']],
             ['label' => 'Контакты', 'url' => ['/site/contact']],
+            ['label'=>'Сданные ДЗ','option'=>['class'=>'dropdown'],
+                'visible'=>!Yii::$app->user->isGuest,
+                'template' => '<a href="{url}" class="url-class">{label}</a>',
+                'items'=>[
+                    ['label' => 'ДЗ1', 'url' => ['/test/index']],
+                    ['label' => 'ДЗ2', 'url' => ['/test/second']],
+                    ['label' => 'Product ДЗ3', 'url' => ['/product/index']],
+                    ['label' => 'ДЗ4', 'url' => ['/test/fourth']],
+                    ['label' => 'ДЗ5', 'url' => ['/user/test']],
+                ]
+                ],
+            ['label' => 'ДЗ7', 'url' => ['/note/my'],'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'Регистрация', 'url' => ['/user/create'],'visible'=>Yii::$app->user->isGuest],
-            ['label' => 'ДЗ1', 'url' => ['/test/index'],'visible'=>!Yii::$app->user->isGuest],
-            ['label' => 'ДЗ2', 'url' => ['/test/second'],'visible'=>!Yii::$app->user->isGuest],
-            ['label' => 'Product ДЗ3', 'url' => ['/product/index'],'visible'=>!Yii::$app->user->isGuest],
-            ['label' => 'ДЗ4', 'url' => ['/test/fourth'],'visible'=>!Yii::$app->user->isGuest],
-            ['label' => 'ДЗ5', 'url' => ['/user/test'],'visible'=>!Yii::$app->user->isGuest],
             ['label' => 'Профиль', 'url' => ['/user/view','id'=>app()->user->id],'visible'=>!Yii::$app->user->isGuest],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Войти', 'url' => ['/site/login']]

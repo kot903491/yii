@@ -75,7 +75,7 @@ class UserController extends Controller
             $auth = Yii::$app->authManager;
             $authorRole = $auth->getRole('user');
             $auth->assign($authorRole, $user->getId());
-            app()->session->addFlash('info','Пользователь ' . $user->username . ' создан. Войдите на сайт');
+            app()->session->setFlash('success','Пользователь ' . $user->username . ' создан. Войдите на сайт');
             return $this->redirect(['site/login']);
         }
 
